@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppMobile.Views.ConsumptionTabPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding PhValue}" />
+            <Label Text="{Binding TurbidityValue}" />
+            <Label Text="{Binding TapConsumption}" />
+            <Label Text="{Binding TreatedConsumption}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
