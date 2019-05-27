@@ -1,14 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="AppMobile.Views.ConsumptionTabPage"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding PhValue}" />
-            <Label Text="{Binding TurbidityValue}" />
-            <Label Text="{Binding TapConsumption}" />
-            <Label Text="{Binding TreatedConsumption}" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout BackgroundColor="LightBlue">
+
+                <StackLayout Margin="10" BackgroundColor="White" HeightRequest="350">
+                    <skia:SKCanvasView PaintSurface="OnConsumptioCanvasViewPaintSurface" VerticalOptions="FillAndExpand" Margin="5"/>
+                </StackLayout>
+
+                <StackLayout Margin="10" BackgroundColor="White" >
+                    <skia:SKCanvasView PaintSurface="OnComparasionCanvasViewPaintSurface" Margin="5"/>
+                    <Label Text="Consumiste ???? que ayer" />
+                    <Button Text="Ver Historia" Clicked="History_Clicked" />
+                </StackLayout>
+
+                <StackLayout Margin="10" BackgroundColor="White" >
+                    <Label Text="{Binding Path=PhValue, StringFormat='Valor de ph: {0:F2}'}" Margin="5"/>
+                    <Label Text="{Binding Path=TurbidityValue, StringFormat='Valor de Turbidez: {0:F2} NTU'}" Margin="5" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
