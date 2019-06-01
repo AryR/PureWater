@@ -35,8 +35,8 @@ namespace AppMobile.Views
 				{
 					new MenuItem { Id = 0, Title = "Home", TargetType = typeof(ConsumptionPage) },
 					new MenuItem { Id = 1, Title = "Perfil" },
-					new MenuItem { Id = 2, Title = "Servicio de Recolección" },
-					new MenuItem { Id = 3, Title = "Planes de Acción" },
+					//new MenuItem { Id = 2, Title = "Servicio de Recolección" },
+					//new MenuItem { Id = 3, Title = "Planes de Acción" },
 					new MenuItem { Id = 4, Title = "Administración de Usuarios" },
 					new MenuItem { Id = 5, Title = "Cerrar Sesión" }
 				});

@@ -9,7 +9,11 @@ namespace WebService.Models
 	{
 		public int ResponseCode;
 		public string ResponseMessage;
-		public string UserName;
-		public int UserRole;
+		public int Role;
+		public string FirstName;
+		public string LastName;
+		public string EMail;
+		public string Phone;
+		public bool IsRecolectionServiceEnabled;
 	}
 }

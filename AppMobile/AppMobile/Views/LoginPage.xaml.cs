@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppMobile.Helpers;
+using AppMobile.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +25,15 @@ namespace AppMobile.Views
 
 		private void Login_Clicked(object sender, EventArgs e)
 		{
-			App.Current.MainPage = new MainPage();
+			try
+			{
+				UserModel user = WebServiceHelper.ValidateUser("ary", "123").Result;
+				App.Current.MainPage = new MainPage();
+			}
+			catch(Exception exp)
+			{
+				DisplayAlert("Error", exp.Message, "Aceptar");
+			}
 		}
 	}
 }
