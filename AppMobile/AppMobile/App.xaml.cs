@@ -11,7 +11,7 @@ namespace AppMobile
 		{
 			InitializeComponent();
 
-			MainPage = new LoginPage();
+			MainPage = new SplashPage();
 		}
 
 		protected override void OnStart()

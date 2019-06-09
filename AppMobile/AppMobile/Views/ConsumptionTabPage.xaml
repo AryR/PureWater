@@ -9,12 +9,12 @@
             <StackLayout BackgroundColor="LightBlue">
 
                 <StackLayout Margin="10" BackgroundColor="White">
-                    <skia:SKCanvasView HeightRequest="350" PaintSurface="OnConsumptioCanvasViewPaintSurface" VerticalOptions="FillAndExpand" Margin="5"/>
+                    <skia:SKCanvasView x:Name="PrincipalCanvas" HeightRequest="350" PaintSurface="OnConsumptioCanvasViewPaintSurface" VerticalOptions="FillAndExpand" Margin="5"/>
                 </StackLayout>
 
                 <StackLayout Margin="10" BackgroundColor="White" >
                     <Label Text="Consumo de Agua Corriente contra Tratada" FontSize="Large" />
-                    <skia:SKCanvasView PaintSurface="OnComparasionCanvasViewPaintSurface" Margin="5"/>
+                    <skia:SKCanvasView x:Name="SecondaryCanvas" PaintSurface="OnComparasionCanvasViewPaintSurface" Margin="5"/>
                     <Label Text="Consumiste ???? que ayer" />
                     <Button Text="Ver Historia" Clicked="History_Clicked" />
                 </StackLayout>

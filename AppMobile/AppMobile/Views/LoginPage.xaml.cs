@@ -1,5 +1,6 @@
 ﻿using AppMobile.Helpers;
 using AppMobile.Models;
+using Plugin.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace AppMobile.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
 	{
-		public string User { get; set; }
+		public string Email { get; set; }
 		public string Password { get; set; }
 
 		public LoginPage()
@@ -27,7 +28,12 @@ namespace AppMobile.Views
 		{
 			try
 			{
-				UserModel user = WebServiceHelper.ValidateUser("ary", "123").Result;
+				if (String.IsNullOrWhiteSpace(Email) || String.IsNullOrWhiteSpace(Password))
+					throw new Exception("Datos sin completar.");
+
+				UserModel user = WebServiceHelper.ValidateUser(Email, Password).Result;
+				Settings.Email = Email;
+				Settings.Password = Password;
 				App.Current.MainPage = new MainPage();
 			}
 			catch(Exception exp)

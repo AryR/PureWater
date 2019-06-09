@@ -3,21 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:AppMobile.Views.Converters"
              mc:Ignorable="d"
              x:Class="AppMobile.Views.ProfilePage">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="inverseBoolean" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Path=FullName, StringFormat='Hola: {0}'}" HorizontalOptions="CenterAndExpand" />
-            <Entry Text="{Binding Email}" Placeholder="E-Mail" IsEnabled="{Binding IsChangeEnabled}" HorizontalOptions="CenterAndExpand" />
-            <Entry Text="{Binding Phone}" Placeholder="Telefono" IsEnabled="{Binding IsChangeEnabled}" HorizontalOptions="CenterAndExpand" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Label Text="{Binding FullName}" />
+            <Entry Text="{Binding EMail}" Placeholder="E-Mail" IsEnabled="{Binding IsChangeEnabled}" />
+            <Entry Text="{Binding Phone}" Placeholder="Telefono" IsEnabled="{Binding IsChangeEnabled}" />
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Servicio de Recolección Habilitado" HorizontalOptions="StartAndExpand" />
-                <Switch IsToggled="{Binding RecolectionServiceEnabled}" IsEnabled="{Binding IsChangeEnabled}" HorizontalOptions="End"/>
+                <Switch IsToggled="{Binding RecolectionServiceEnabled}" IsEnabled="{Binding IsChangeEnabled}"/>
             </StackLayout>
 
-            <Button Text="Editar Datos" Clicked="Edit_Clicked" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsChangeEnabled}" />
-            <Button Text="Guardar Cambios" Clicked="SaveChanges_Clicked" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsChangeEnabled}" />
-            <Button Text="Cambiar Password" Clicked="ChangePassowrd_Clicked" HorizontalOptions="CenterAndExpand" />
+            <Button Text="Editar Datos" Clicked="Edit_Clicked" IsVisible="{Binding Path=IsChangeEnabled, Converter={StaticResource inverseBoolean}}" />
+            <Button Text="Guardar Cambios" Clicked="SaveChanges_Clicked" IsVisible="{Binding IsChangeEnabled}" />
+            <Button Text="Cambiar Password" Clicked="ChangePassowrd_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using AppMobile.Models;
+﻿using AppMobile.Helpers;
+using AppMobile.Models;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
@@ -22,7 +23,21 @@ namespace AppMobile.Views
 		public ConsumptionTabPage(bool daily)
 		{
 			InitializeComponent();
+			Daily = daily;
 			BindingContext = ViewModel = new ConsumptionModel(daily);
+
+			Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+			{
+				Device.BeginInvokeOnMainThread(() => RefreshViewModel());
+				return true;
+			});
+		}
+
+		private void RefreshViewModel()
+		{
+			ViewModel.UpdateModel();
+			PrincipalCanvas.InvalidateSurface();
+			SecondaryCanvas.InvalidateSurface();
 		}
 
 		void OnConsumptioCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)

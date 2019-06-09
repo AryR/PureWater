@@ -5,10 +5,8 @@ using System.Web;
 
 namespace WebService.Models
 {
-	public class UserResponse
+	public class User
 	{
-		public int ResponseCode;
-		public string ResponseMessage;
 		public int Role;
 		public string FirstName;
 		public string LastName;

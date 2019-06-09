@@ -1,4 +1,6 @@
-﻿using AppMobile.Models;
+﻿using AppMobile.Helpers;
+using AppMobile.Models;
+using Matcha.BackgroundService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,21 @@ namespace AppMobile.Views
 			InitializeComponent();
 		}
 
-		
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+			BackgroundAggregatorService.Add(() => new PeriodicUpdateWaterValuesTask(10));
+
+			//Start the background service
+			BackgroundAggregatorService.StartBackgroundService();
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+
+			BackgroundAggregatorService.StopBackgroundService();
+		}
 	}
 }
