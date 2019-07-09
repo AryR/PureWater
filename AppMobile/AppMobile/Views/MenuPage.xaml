@@ -9,7 +9,7 @@
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
       <ListView.Header>
-        <Grid BackgroundColor="#03A9F4">
+        <Grid BackgroundColor="{StaticResource ColorAccent}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
@@ -25,7 +25,8 @@
               Grid.Column="1"
               Grid.Row="2"
               Text="Pure Water"
-              Style="{DynamicResource SubtitleStyle}"/>
+              FontSize="Large"
+              TextColor="White"/>
         </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
@@ -35,7 +36,8 @@
               <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
-                    FontSize="24"/>
+                    FontSize="Medium"
+                     TextColor="{StaticResource ColorPrimary}"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>

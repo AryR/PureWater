@@ -1,4 +1,6 @@
-﻿using AppMobile.Views;
+﻿using AppMobile.Helpers;
+using AppMobile.Models;
+using AppMobile.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,7 +13,19 @@ namespace AppMobile
 		{
 			InitializeComponent();
 
-			MainPage = new SplashPage();
+			try
+			{
+				if (String.IsNullOrWhiteSpace(Settings.Email) || String.IsNullOrWhiteSpace(Settings.Password))
+					throw new Exception();
+
+				UserModel user = WebServiceHelper.ValidateUser(Settings.Email, Settings.Password).Result;
+				CacheHelper.SetCurrentUserModel(user);
+				MainPage = new MainPage();
+			}
+			catch (Exception exp)
+			{
+				MainPage = new LoginPage();
+			}
 		}
 
 		protected override void OnStart()

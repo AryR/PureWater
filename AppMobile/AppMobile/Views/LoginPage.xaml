@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppMobile.Views.LoginPage">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <Entry Placeholder="EMail" Text="{Binding Email}" />
-            <Entry Placeholder="Password" Text="{Binding Password}" />
-            <Button Text="Login" Clicked="Login_Clicked" />
+        <StackLayout VerticalOptions="Center" Margin="10">
+            <Image Source="logo.png" HeightRequest="200" />
+            <Entry Placeholder="Email" Text="{Binding Email}" Keyboard="Email" />
+            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
+            <Button Text="Login" Clicked="Login_Clicked" Style="{StaticResource ColorButtonStyle}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

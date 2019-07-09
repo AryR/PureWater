@@ -6,17 +6,17 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout BackgroundColor="LightBlue">
+            <StackLayout BackgroundColor="{StaticResource BackgroundConsuption}">
 
-                <StackLayout Margin="10" BackgroundColor="White">
+                <StackLayout Margin="10" BackgroundColor="{StaticResource BackgroundConsumptionCards}">
                     <skia:SKCanvasView x:Name="PrincipalCanvas" HeightRequest="350" PaintSurface="OnConsumptioCanvasViewPaintSurface" VerticalOptions="FillAndExpand" Margin="5"/>
                 </StackLayout>
 
-                <StackLayout Margin="10" BackgroundColor="White" >
-                    <Label Text="Consumo de Agua Corriente contra Tratada" FontSize="Large" />
+                <StackLayout Margin="10" BackgroundColor="{StaticResource BackgroundConsumptionCards}" >
+                    <Label Text="Consumo de Agua Corriente contra Tratada" TextColor="Black" FontSize="Large" />
                     <skia:SKCanvasView x:Name="SecondaryCanvas" PaintSurface="OnComparasionCanvasViewPaintSurface" Margin="5"/>
-                    <Label Text="Consumiste ???? que ayer" />
-                    <Button Text="Ver Historia" Clicked="History_Clicked" />
+                    <!--<Label Text="Consumiste ???? que ayer" TextColor="Black" />
+                    <Button Text="Ver Historia" Clicked="History_Clicked" />-->
                 </StackLayout>
             </StackLayout>
         </ScrollView>

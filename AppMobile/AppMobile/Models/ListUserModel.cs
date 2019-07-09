@@ -6,19 +6,24 @@ using System.Text;
 
 namespace AppMobile.Models
 {
-	public class ListUserModel : INotifyPropertyChanged
+	public class ListUserModel : BaseViewModel
 	{
-		public List<UserModel> Users;
-
-		#region INotifyPropertyChanged Implementation
-		public event PropertyChangedEventHandler PropertyChanged;
-		void OnPropertyChanged([CallerMemberName] string propertyName = "")
+		private List<UserModel> _users;
+		public List<UserModel> Users
 		{
-			if (PropertyChanged == null)
-				return;
-
-			PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			get
+			{
+				return _users;
+			}
+			set
+			{
+				SetProperty(ref _users, value);
+			}
 		}
-		#endregion
+
+		public ListUserModel()
+		{
+			Users = new List<UserModel>();
+		}
 	}
 }

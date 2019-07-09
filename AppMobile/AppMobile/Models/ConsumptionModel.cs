@@ -132,12 +132,15 @@ namespace AppMobile.Models
 		public void UpdateModel()
 		{
 			ConsumptionModel model = CacheHelper.GetConsumptionModel(IsDaily);
-			this.PhValue = model.PhValue;
-			this.TurbidityValue = model.TurbidityValue;
-			this.TapConsumption = model.TapConsumption;
-			this.TreatedConsumption = model.TreatedConsumption;
-			this.MinConsumption = model.MinConsumption;
-			this.MaxConsumption = model.MaxConsumption;
+			if (model != null)
+			{
+				this.PhValue = model.PhValue;
+				this.TurbidityValue = model.TurbidityValue;
+				this.TapConsumption = model.TapConsumption;
+				this.TreatedConsumption = model.TreatedConsumption;
+				this.MinConsumption = model.MinConsumption;
+				this.MaxConsumption = model.MaxConsumption;
+			}
 		}
 	}
 }

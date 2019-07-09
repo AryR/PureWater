@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using WebService.DBAccess;
 using WebService.Models;
 
 namespace WebService.Controllers
@@ -22,23 +23,20 @@ namespace WebService.Controllers
 			string password = dataobject.GetValue("Password").ToString();
 
 			GetUserResponse userResponse = new GetUserResponse();
-			if(email == "ary" && password == "123")
+
+			User user = UserDBAccess.ValidateUser(email, password);
+
+			if(user != null)
 			{
-				userResponse.User = new User();
-				userResponse.User.Role = 1;
-				userResponse.User.FirstName = "ary";
-				userResponse.User.LastName = "regojo";
-				userResponse.User.IsRecolectionServiceEnabled = true;
-				userResponse.User.Phone = "1234-5678";
-				userResponse.User.EMail = "ary@asd.com";
+				userResponse.User = user;
 				userResponse.ResponseCode = 1;
-				userResponse.ResponseMessage = "Valid User.";
+				userResponse.ResponseMessage = "Usuario Valido.";
 			}
 			else
 			{
 				userResponse.User = null;
 				userResponse.ResponseCode = 9;
-				userResponse.ResponseMessage = "Invalid User.";
+				userResponse.ResponseMessage = "Usuario Invalido.";
 			}
 
 			var resp = new HttpResponseMessage()
@@ -54,67 +52,142 @@ namespace WebService.Controllers
 		public HttpResponseMessage CreateUser([FromBody]string data)
 		{
 			JObject dataobject = JObject.Parse(data);
-			string email = dataobject.GetValue("Email").ToString();
-			string password = dataobject.GetValue("Password").ToString();
+			string adminEmail = dataobject.GetValue("Email").ToString();
+			string adminPassword = dataobject.GetValue("Password").ToString();
 			JObject user = (JObject)dataobject.GetValue("User").ToString();
 
-			GenericResponse userResponse = new GenericResponse();
-			if (email == "ary" && password == "123")
+			GenericResponse response = new GenericResponse();
+
+			if (!UserDBAccess.ValidateAdminUser(adminEmail, adminPassword))
 			{
-				string FirstName = user.GetValue("FirstName").ToString();
-				string LastName = user.GetValue("LastName").ToString();
-				string EMail = user.GetValue("EMail").ToString();
-				string Phone = user.GetValue("Phone").ToString();
-				bool IsRecolectionServiceEnabled = user.GetValue("IsRecolectionServiceEnabled").ToString() == "true";
-				string Role = user.GetValue("Role").ToString();
-
-				//INSERT
-
-				userResponse.ResponseCode = 1;
-				userResponse.ResponseMessage = "User created.";
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Usuario sin permisos para la creación de Usuarios.";
 			}
 			else
 			{
-				userResponse.ResponseCode = 9;
-				userResponse.ResponseMessage = "Invalid User.";
+				string firstName = user.GetValue("FirstName").ToString();
+				string lastName = user.GetValue("LastName").ToString();
+				string eMail = user.GetValue("EMail").ToString();
+				string phone = user.GetValue("Phone").ToString();
+				int role = (int)user.GetValue("Role");
+				string userName = user.GetValue("UserName").ToString();
+				long DNI = (long)user.GetValue("DNI");
+				DateTime birthDate = (DateTime)user.GetValue("BirthDate");
+				string password = user.GetValue("Password").ToString();
+				int measurer1 = (int)user.GetValue("Measurer1ID");
+				int measurer2 = (int)user.GetValue("Measurer2ID");
+
+				if (UserDBAccess.CreateUser(adminEmail, adminPassword, userName, eMail, password, firstName, lastName, DNI, birthDate, phone, role, measurer1, measurer2))
+				{
+					response.ResponseCode = 1;
+					response.ResponseMessage = "Usuario creado.";
+				}
+				else
+				{
+					response.ResponseCode = 9;
+					response.ResponseMessage = "Error al crear usuario.";
+				}
 			}
 
 			var resp = new HttpResponseMessage()
 			{
-				Content = new StringContent(JsonConvert.SerializeObject(userResponse))
+				Content = new StringContent(JsonConvert.SerializeObject(response))
 			};
 			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
 			return resp;
 		}
 
-		[System.Web.Http.ActionName("GetUsers")]
-		public HttpResponseMessage ListUsers([FromBody]string data)
+		[System.Web.Http.ActionName("ChangeUserDataAdmin")]
+		public HttpResponseMessage ChangeUserDataAdmin([FromBody]string data)
 		{
 			JObject dataobject = JObject.Parse(data);
-			string email = dataobject.GetValue("Email").ToString();
-			string password = dataobject.GetValue("Password").ToString();
+			string adminEmail = dataobject.GetValue("Email").ToString();
+			string adminPassword = dataobject.GetValue("Password").ToString();
+			JObject user = (JObject)dataobject.GetValue("User").ToString();
 
-			GetUsersResponse userResponse = new GetUsersResponse();
-			if (email == "ary" && password == "123")
+			GenericResponse response = new GenericResponse();
+
+			if (!UserDBAccess.ValidateAdminUser(adminEmail, adminPassword))
 			{
-				userResponse.ResponseCode = 1;
-				userResponse.ResponseMessage = "User's returned";
-				userResponse.Users = new List<User>();
-				userResponse.Users.Add(new User() { FirstName = "Usuario 1", EMail = "asd@asd.com", LastName = "Apellido1", Phone = "12345678", IsRecolectionServiceEnabled = true, Role = 2 });
-				userResponse.Users.Add(new User() { FirstName = "Usuario 2", EMail = "asd@asd.com", LastName = "Apellido2", Phone = "1235353", IsRecolectionServiceEnabled = true, Role = 2 });
-				userResponse.Users.Add(new User() { FirstName = "Usuario 3", EMail = "asd@asd.com", LastName = "Apellido3", Phone = "6768797654", IsRecolectionServiceEnabled = true, Role = 2 });
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Usuario sin permisos para la creación de Usuarios.";
 			}
 			else
 			{
-				userResponse.ResponseCode = 9;
-				userResponse.ResponseMessage = "Invalid User.";
-				userResponse.Users = null;
+				int id = (int)user.GetValue("ID");
+				string firstName = user.GetValue("FirstName").ToString();
+				string lastName = user.GetValue("LastName").ToString();
+				string eMail = user.GetValue("EMail").ToString();
+				string phone = user.GetValue("Phone").ToString();
+				int role = (int)user.GetValue("Role");
+				string userName = user.GetValue("UserName").ToString();
+				long DNI = (long)user.GetValue("DNI");
+				DateTime birthDate = (DateTime)user.GetValue("BirthDate");
+				string password = user.GetValue("Password").ToString();
+				int measurer1 = (int)user.GetValue("Measurer1ID");
+				int measurer2 = (int)user.GetValue("Measurer2ID");
+
+				if (UserDBAccess.UpdateUserAdmin(adminEmail, adminPassword, id, userName, eMail, password, firstName, lastName, DNI, birthDate, phone, role, measurer1, measurer2))
+				{
+					response.ResponseCode = 1;
+					response.ResponseMessage = "Usuario creado.";
+				}
+				else
+				{
+					response.ResponseCode = 9;
+					response.ResponseMessage = "Error al crear usuario.";
+				}
 			}
 
 			var resp = new HttpResponseMessage()
 			{
-				Content = new StringContent(JsonConvert.SerializeObject(userResponse))
+				Content = new StringContent(JsonConvert.SerializeObject(response))
+			};
+			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return resp;
+		}
+
+		[System.Web.Http.ActionName("ChangeUserData")]
+		public HttpResponseMessage ChangeUserData([FromBody]string data)
+		{
+			JObject dataobject = JObject.Parse(data);
+			string email = dataobject.GetValue("Email").ToString();
+			string password = dataobject.GetValue("Password").ToString();
+			JObject user = (JObject)dataobject.GetValue("User").ToString();
+
+			GenericResponse response = new GenericResponse();
+
+			if (UserDBAccess.ValidateUser(email, password) == null)
+			{
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Usuario sin permisos para la creación de Usuarios.";
+			}
+			else
+			{
+				string firstName = user.GetValue("FirstName").ToString();
+				string lastName = user.GetValue("LastName").ToString();
+				string eMail = user.GetValue("EMail").ToString();
+				string phone = user.GetValue("Phone").ToString();
+				long DNI = (long)user.GetValue("DNI");
+				DateTime birthDate = (DateTime)user.GetValue("BirthDate");
+
+				if (UserDBAccess.UpdateUser(eMail, firstName, lastName, DNI, birthDate, phone))
+				{
+					response.ResponseCode = 1;
+					response.ResponseMessage = "Usuario modificado.";
+				}
+				else
+				{
+					response.ResponseCode = 9;
+					response.ResponseMessage = "Error al modificar usuario.";
+				}
+			}
+
+			var resp = new HttpResponseMessage()
+			{
+				Content = new StringContent(JsonConvert.SerializeObject(response))
 			};
 			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -129,18 +202,92 @@ namespace WebService.Controllers
 			string password = dataobject.GetValue("Password").ToString();
 			string newPassword = dataobject.GetValue("NewPassword").ToString();
 
-			GenericResponse userResponse = new GenericResponse();
-			if (email == "ary" && password == "123")
-			{
-				//Change password
+			GenericResponse response = new GenericResponse();
 
-				userResponse.ResponseCode = 1;
-				userResponse.ResponseMessage = "Password changed.";
+			if (!UserDBAccess.ValidateAdminUser(email, password))
+			{
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Password invalida.";
 			}
 			else
 			{
+				if (UserDBAccess.ChangePassword(email, newPassword))
+				{
+					response.ResponseCode = 1;
+					response.ResponseMessage = "Password cambiada.";
+				}
+				else
+				{
+					response.ResponseCode = 9;
+					response.ResponseMessage = "Error al cambiar password.";
+				}
+			}
+
+			var resp = new HttpResponseMessage()
+			{
+				Content = new StringContent(JsonConvert.SerializeObject(response))
+			};
+			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return resp;
+		}
+
+		[System.Web.Http.ActionName("DeleteUser")]
+		public HttpResponseMessage DeleteUser([FromBody]string data)
+		{
+			JObject dataobject = JObject.Parse(data);
+			string adminEmail = dataobject.GetValue("Email").ToString();
+			string adminPassword = dataobject.GetValue("Password").ToString();
+			int userID = (int)dataobject.GetValue("UserID");
+
+			GenericResponse response = new GenericResponse();
+
+			if (!UserDBAccess.ValidateAdminUserDelete(adminEmail, adminPassword, userID))
+			{
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Usuario sin permisos para la eliminación del Usuario.";
+			}
+			else
+			{
+				if (UserDBAccess.DeleteUser(userID))
+				{
+					response.ResponseCode = 1;
+					response.ResponseMessage = "Usuario eliminado.";
+				}
+				else
+				{
+					response.ResponseCode = 9;
+					response.ResponseMessage = "Error al eliminar usuario.";
+				}
+			}
+
+				var resp = new HttpResponseMessage()
+			{
+				Content = new StringContent(JsonConvert.SerializeObject(response))
+			};
+			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return resp;
+		}
+
+		[System.Web.Http.ActionName("GetUsers")]
+		public HttpResponseMessage ListUsers([FromBody]string data)
+		{
+			JObject dataobject = JObject.Parse(data);
+			string adminEmail = dataobject.GetValue("Email").ToString();
+			string adminPassword = dataobject.GetValue("Password").ToString();
+
+			GetUsersResponse userResponse = new GetUsersResponse();
+			if (!UserDBAccess.ValidateAdminUser(adminEmail, adminPassword))
+			{
 				userResponse.ResponseCode = 9;
-				userResponse.ResponseMessage = "Invalid User.";
+				userResponse.ResponseMessage = "Usuario sin permisos para la creación de Usuarios.";
+			}
+			else
+			{
+				userResponse.ResponseCode = 1;
+				userResponse.ResponseMessage = "Lista de Usuarios.";
+				userResponse.Users = UserDBAccess.ListUsers(adminEmail, adminPassword);
 			}
 
 			var resp = new HttpResponseMessage()
@@ -152,33 +299,29 @@ namespace WebService.Controllers
 			return resp;
 		}
 
-		[System.Web.Http.ActionName("ChangeUserData")]
-		public HttpResponseMessage ChangeUserData([FromBody]string data)
+		[System.Web.Http.ActionName("GetMeasurers")]
+		public HttpResponseMessage ListMeasurers([FromBody]string data)
 		{
 			JObject dataobject = JObject.Parse(data);
-			string email = dataobject.GetValue("Email").ToString();
-			string password = dataobject.GetValue("Password").ToString();
-			string newEmail = dataobject.GetValue("NewEmail").ToString();
-			string newPhone = dataobject.GetValue("Phone").ToString();
-			string newRecolectionService = dataobject.GetValue("RecolectionService").ToString();
+			string adminEmail = dataobject.GetValue("Email").ToString();
+			string adminPassword = dataobject.GetValue("Password").ToString();
 
-			GenericResponse userResponse = new GenericResponse();
-			if (email == "ary" && password == "123")
+			GetMeasurerResponse measurersResponse = new GetMeasurerResponse();
+			if (!UserDBAccess.ValidateAdminUser(adminEmail, adminPassword))
 			{
-				//Change data
-
-				userResponse.ResponseCode = 1;
-				userResponse.ResponseMessage = "Data changed.";
+				measurersResponse.ResponseCode = 9;
+				measurersResponse.ResponseMessage = "Usuario sin permisos para la obtencion de Medidores.";
 			}
 			else
 			{
-				userResponse.ResponseCode = 9;
-				userResponse.ResponseMessage = "Invalid User.";
+				measurersResponse.ResponseCode = 1;
+				measurersResponse.ResponseMessage = "Lista de Usuarios.";
+				measurersResponse.Measurers = UserDBAccess.ListMeasurers(adminEmail, adminPassword);
 			}
 
 			var resp = new HttpResponseMessage()
 			{
-				Content = new StringContent(JsonConvert.SerializeObject(userResponse))
+				Content = new StringContent(JsonConvert.SerializeObject(measurersResponse))
 			};
 			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 

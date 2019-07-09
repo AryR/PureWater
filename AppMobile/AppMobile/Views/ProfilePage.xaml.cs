@@ -41,7 +41,7 @@ namespace AppMobile.Views
 			ViewModel.IsChangeEnabled = false;
 			try
 			{
-				bool changed = WebServiceHelper.ChangeUserData(Settings.Email, Settings.Password, ViewModel.EMail, ViewModel.Phone, ViewModel.IsRecolectionServiceEnabled).Result;
+				bool changed = WebServiceHelper.ChangeUserData(Settings.Email, Settings.Password, ViewModel).Result;
 				if (changed)
 				{
 					Settings.Email = ViewModel.EMail;
@@ -64,15 +64,16 @@ namespace AppMobile.Views
 		{
 			var tcs = new TaskCompletionSource<string>();
 
-			var lblTitle = new Label { Text = "Cambio de Password", HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
-			var oldPassword = new Entry { Text = "", Placeholder = "Password Actual" };
-			var newPassword = new Entry { Text = "", Placeholder = "Nueva Password" };
-			var newPasswordConfirm = new Entry { Text = "", Placeholder = "Confirmar Nueva Password" };
+			var lblTitle = new Label { Text = "Cambio de Password", HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold, FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)) };
+			var oldPassword = new Entry { Text = "", Placeholder = "Password Actual", IsPassword = true };
+			var newPassword = new Entry { Text = "", Placeholder = "Nueva Password", IsPassword = true };
+			var newPasswordConfirm = new Entry { Text = "", Placeholder = "Confirmar Nueva Password", IsPassword = true };
 
 			var btnOk = new Button
 			{
 				Text = "Cambiar",
-				WidthRequest = 100
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Style = (Style)Application.Current.Resources["ColorGreenButtonStyle"]
 			};
 			btnOk.Clicked += async (s, e) =>
 			{
@@ -107,7 +108,8 @@ namespace AppMobile.Views
 			var btnCancel = new Button
 			{
 				Text = "Cancelar",
-				WidthRequest = 100
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Style = (Style)Application.Current.Resources["ColorRedButtonStyle"]
 			};
 			btnCancel.Clicked += async (s, e) =>
 			{
@@ -117,11 +119,12 @@ namespace AppMobile.Views
 			var slButtons = new StackLayout
 			{
 				Orientation = StackOrientation.Horizontal,
-				Children = { btnOk, btnCancel },
+				Children = { btnCancel, btnOk },
 			};
 
 			var layout = new StackLayout
 			{
+				Margin = 10,
 				Padding = new Thickness(0, 40, 0, 0),
 				VerticalOptions = LayoutOptions.StartAndExpand,
 				Orientation = StackOrientation.Vertical,

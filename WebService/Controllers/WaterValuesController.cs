@@ -44,5 +44,33 @@ namespace WebService.Controllers
 
 			return resp;
 		}
+
+		[System.Web.Http.ActionName("SetWaterValues")]
+		public HttpResponseMessage SetWaterValues([FromBody]string data)
+		{
+			JObject dataobject = JObject.Parse(data);
+			string email = dataobject.GetValue("Email").ToString();
+			string password = dataobject.GetValue("Password").ToString();
+
+			GenericResponse response = new GenericResponse();
+			if (email == "ary" && password == "123")
+			{
+				response.ResponseCode = 1;
+				response.ResponseMessage = "Values returned.";
+			}
+			else
+			{
+				response.ResponseCode = 9;
+				response.ResponseMessage = "Invalid User.";
+			}
+
+			var resp = new HttpResponseMessage()
+			{
+				Content = new StringContent(JsonConvert.SerializeObject(response))
+			};
+			resp.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+			return resp;
+		}
 	}
 }

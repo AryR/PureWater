@@ -34,6 +34,7 @@ namespace AppMobile.Views
 				UserModel user = WebServiceHelper.ValidateUser(Email, Password).Result;
 				Settings.Email = Email;
 				Settings.Password = Password;
+				CacheHelper.SetCurrentUserModel(user);
 				App.Current.MainPage = new MainPage();
 			}
 			catch(Exception exp)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppMobile.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace AppMobile.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : MasterDetailPage
 	{
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -23,6 +25,15 @@ namespace AppMobile.Views
 			var item = e.SelectedItem as MenuItem;
 			if (item == null)
 				return;
+
+			if(item.Id == 5)
+			{
+				Settings.Email = "";
+				Settings.Password = "";
+				CacheHelper.SetCurrentUserModel(null);
+				App.Current.MainPage = new LoginPage();
+				return;
+			}
 
 			var page = (Page)Activator.CreateInstance(item.TargetType);
 			page.Title = item.Title;

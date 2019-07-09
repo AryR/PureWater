@@ -20,6 +20,13 @@ namespace AppMobile.Views
 	{
 		private ConsumptionModel ViewModel;
 		private bool Daily;
+
+		private SKColor MinColor = new SKColor(32, 83, 250);
+		private SKColor MaxColor = new SKColor(250, 32, 32);
+		private SKColor TapColor = new SKColor(56, 159, 255);
+		private SKColor TreatedColor = new SKColor(40, 191, 58);
+		private SKColor PointColor = new SKColor(255, 226, 5);
+
 		public ConsumptionTabPage(bool daily)
 		{
 			InitializeComponent();
@@ -55,7 +62,7 @@ namespace AppMobile.Views
 			{
 				Style = SKPaintStyle.Stroke,
 				StrokeWidth = 50,
-				Shader = SKShader.CreateSweepGradient(new SKPoint(rect.MidX, rect.MidY), new SKColor[] { SKColors.LightBlue, SKColors.IndianRed }, null, SKShaderTileMode.Repeat, 0, 270)
+				Shader = SKShader.CreateSweepGradient(new SKPoint(rect.MidX, rect.MidY), new SKColor[] { MinColor, MaxColor }, null, SKShaderTileMode.Repeat, 0, 270)
 			};
 
 			using (SKPath path = new SKPath())
@@ -78,7 +85,7 @@ namespace AppMobile.Views
 				{
 					Style = SKPaintStyle.StrokeAndFill,
 					StrokeWidth = 10,
-					Color = SKColors.Orange
+					Color = PointColor
 				};
 				
 				canvas.RotateDegrees(135, rect.MidX, rect.MidY);
@@ -134,12 +141,12 @@ namespace AppMobile.Views
 			SKPaint paint = new SKPaint
 			{
 				Style = SKPaintStyle.Fill,
-				Color = SKColors.IndianRed
+				Color = TapColor
 			};
 
 			canvas.DrawRect(0,0, info.Width * tapPercentage, info.Height, paint);
 
-			paint.Color = SKColors.LightBlue;
+			paint.Color = TreatedColor;
 			canvas.DrawRect(info.Width * tapPercentage, 0, info.Width * (1 - tapPercentage), args.Info.Height, paint);
 
 			SKPaint textPaint = new SKPaint
@@ -153,8 +160,8 @@ namespace AppMobile.Views
 
 			textPaint.TextSize = 0.2f * info.Height;
 
-			canvas.DrawText(tapPercentage * 100 + " %", 0, args.Info.Height * 0.75f, textPaint);
-			canvas.DrawText((1 - tapPercentage) * 100 + " %", info.Width * tapPercentage, args.Info.Height * 0.75f, textPaint);
+			canvas.DrawText(Math.Round(tapPercentage * 100, 2) + " %", 0, args.Info.Height * 0.75f, textPaint);
+			canvas.DrawText(Math.Round((1 - tapPercentage) * 100, 2) + " %", info.Width * tapPercentage, args.Info.Height * 0.75f, textPaint);
 		}
 
 		private void History_Clicked(object sender, EventArgs e)

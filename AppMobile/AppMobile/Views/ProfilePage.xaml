@@ -14,18 +14,25 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding FullName}" />
-            <Entry Text="{Binding EMail}" Placeholder="E-Mail" IsEnabled="{Binding IsChangeEnabled}" />
-            <Entry Text="{Binding Phone}" Placeholder="Telefono" IsEnabled="{Binding IsChangeEnabled}" />
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Servicio de Recolección Habilitado" HorizontalOptions="StartAndExpand" />
-                <Switch IsToggled="{Binding RecolectionServiceEnabled}" IsEnabled="{Binding IsChangeEnabled}"/>
+        <StackLayout Margin="10">
+            <Label Text="{Binding EMail}" FontSize="Large"  />
+            <Entry Text="{Binding FirstName}" Placeholder="Nombre" IsEnabled="{Binding IsChangeEnabled}" FontSize="Large" />
+            <Entry Text="{Binding LastName}" Placeholder="Apellido" IsEnabled="{Binding IsChangeEnabled}" FontSize="Large" />
+            <Entry Text="{Binding DNI}" Placeholder="DNI" IsEnabled="{Binding IsChangeEnabled}" FontSize="Large" Keyboard="Numeric" />
+            <Entry Text="{Binding Phone}" Placeholder="Telefono" IsEnabled="{Binding IsChangeEnabled}" FontSize="Large" Keyboard="Telephone" />
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                <Label Text="Fecha de Nacimiento" FontSize="Large" VerticalOptions="Center"/>
+                <DatePicker Date="{Binding BirthDate}" IsEnabled="{Binding IsChangeEnabled}" VerticalOptions="Center" FontSize="Large" HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsAdmin}">
+                <Label Text="Servicio de Recolección Habilitado" FontSize="Large" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding RecolectionServiceEnabled}" IsEnabled="{Binding IsChangeEnabled}" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
             </StackLayout>
 
-            <Button Text="Editar Datos" Clicked="Edit_Clicked" IsVisible="{Binding Path=IsChangeEnabled, Converter={StaticResource inverseBoolean}}" />
-            <Button Text="Guardar Cambios" Clicked="SaveChanges_Clicked" IsVisible="{Binding IsChangeEnabled}" />
-            <Button Text="Cambiar Password" Clicked="ChangePassowrd_Clicked" />
+            <Button Text="Editar Datos" Clicked="Edit_Clicked" IsVisible="{Binding Path=IsChangeEnabled, Converter={StaticResource inverseBoolean}}" Style="{StaticResource ColorButtonStyle}" />
+            <Button Text="Guardar Cambios" Clicked="SaveChanges_Clicked" IsVisible="{Binding IsChangeEnabled}" Style="{StaticResource ColorGreenButtonStyle}" />
+            <Button Text="Cambiar Password" Clicked="ChangePassowrd_Clicked" Style="{StaticResource ColorGreenButtonStyle}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,10 +6,29 @@
              mc:Ignorable="d"
              x:Class="AppMobile.Views.UserAdministrationPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <AbsoluteLayout>
+            <StackLayout Margin="10">
+                <ListView ItemsSource="{Binding Users}" ItemSelected="Users_ItemSelected" 
+                          SeparatorVisibility="Default" SeparatorColor="{StaticResource ColorAccent}"
+                          HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text = "{Binding FullName}" FontSize="Medium" TextColor="{StaticResource ColorPrimary}" />
+                                    <Label Text="{Binding EMail}" FontSize="Small"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            
+            <ImageButton Source="add_icon.png" 
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutFlags="PositionProportional"  
+                AbsoluteLayout.LayoutBounds=".95,.95,80,80" 
+                Clicked="New_Clicked" />
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

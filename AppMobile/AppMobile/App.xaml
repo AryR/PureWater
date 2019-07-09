@@ -3,6 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppMobile.App">
     <Application.Resources>
+        <Color x:Key="ColorPrimary">#004a87</Color>
+        <Color x:Key="ColorAccent">#2196F3</Color>
+        <Color x:Key="BackgroundConsuption">#6da5d6</Color>
+        <Color x:Key="BackgroundConsumptionCards">#f0f8ff</Color>
+        <Color x:Key="ColorAccentGreen">#25f321</Color>
+        <Color x:Key="ColorAccentRed">#f32121</Color>
 
+        <Style x:Key="ColorButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource ColorAccent}" />
+            <Setter Property="BorderColor" Value="{StaticResource ColorAccent}" />
+            <Setter Property="BorderRadius" Value="5" />
+            <Setter Property="BorderWidth" Value="5" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+
+        <Style x:Key="ColorGreenButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource ColorAccentGreen}" />
+            <Setter Property="BorderColor" Value="{StaticResource ColorAccentGreen}" />
+            <Setter Property="BorderRadius" Value="5" />
+            <Setter Property="BorderWidth" Value="5" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+
+        <Style x:Key="ColorRedButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource ColorAccentRed}" />
+            <Setter Property="BorderColor" Value="{StaticResource ColorAccentRed}" />
+            <Setter Property="BorderRadius" Value="5" />
+            <Setter Property="BorderWidth" Value="5" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        
     </Application.Resources>
 </Application>

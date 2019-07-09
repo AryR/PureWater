@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppMobile.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,8 +32,11 @@ namespace AppMobile.Views
 
 			public MainPageMasterMasterViewModel()
 			{
-				MenuItems = new ObservableCollection<MenuItem>(new[]
+				if (CacheHelper.GetCurrentUserModel().Role == 1)
 				{
+
+					MenuItems = new ObservableCollection<MenuItem>(new[]
+					{
 					new MenuItem { Id = 0, Title = "Home", TargetType = typeof(ConsumptionPage) },
 					new MenuItem { Id = 1, Title = "Perfil", TargetType= typeof(ProfilePage) },
 					//new MenuItem { Id = 2, Title = "Servicio de Recolección" },
@@ -40,6 +44,16 @@ namespace AppMobile.Views
 					new MenuItem { Id = 4, Title = "Administración de Usuarios", TargetType = typeof(UserAdministrationPage) },
 					new MenuItem { Id = 5, Title = "Cerrar Sesión" }
 				});
+				}
+				else
+				{
+					MenuItems = new ObservableCollection<MenuItem>(new[]
+					{
+					new MenuItem { Id = 0, Title = "Home", TargetType = typeof(ConsumptionPage) },
+					new MenuItem { Id = 1, Title = "Perfil", TargetType= typeof(ProfilePage) },
+					new MenuItem { Id = 5, Title = "Cerrar Sesión" }
+					});
+				}
 			}
 
 			#region INotifyPropertyChanged Implementation
