@@ -21,7 +21,7 @@ namespace AppMobile.Views
 		private ConsumptionModel ViewModel;
 		private bool Daily;
 
-		private SKColor MinColor = new SKColor(32, 83, 250);
+		private SKColor MinColor = new SKColor(32, 250, 79);
 		private SKColor MaxColor = new SKColor(250, 32, 32);
 		private SKColor TapColor = new SKColor(56, 159, 255);
 		private SKColor TreatedColor = new SKColor(40, 191, 58);
@@ -110,6 +110,37 @@ namespace AppMobile.Views
 				canvas.DrawBitmap(resizedBitmap, info.Width * 0.5f - resizedBitmap.Width * 0.5f, info.Height * 0.2f - resizedBitmap.Height * 0.5f);
 			}
 
+
+			string resourceID2 = "AppMobile.Images.happyworld.png";
+			SKBitmap resourceBitmap2;
+
+			using (Stream stream = assembly.GetManifestResourceStream(resourceID2))
+			{
+				resourceBitmap2 = SKBitmap.Decode(stream);
+			}
+
+			if (resourceBitmap != null)
+			{
+				var resizedBitmap = resourceBitmap2.Resize(new SKImageInfo((int)(info.Width * 0.2), (int)(info.Height * 0.2)), SKBitmapResizeMethod.Box);
+
+				canvas.DrawBitmap(resizedBitmap, 0, info.Height - resizedBitmap.Height);
+			}
+
+			string resourceID3 = "AppMobile.Images.sadworld.png";
+			SKBitmap resourceBitmap3;
+
+			using (Stream stream = assembly.GetManifestResourceStream(resourceID3))
+			{
+				resourceBitmap3 = SKBitmap.Decode(stream);
+			}
+
+			if (resourceBitmap != null)
+			{
+				var resizedBitmap = resourceBitmap3.Resize(new SKImageInfo((int)(info.Width * 0.2), (int)(info.Height * 0.2)), SKBitmapResizeMethod.Box);
+
+				canvas.DrawBitmap(resizedBitmap, info.Width - resizedBitmap.Width, info.Height - resizedBitmap.Height);
+			}
+
 			SKPaint textPaint = new SKPaint
 			{
 				Color = SKColors.Black,
@@ -119,13 +150,13 @@ namespace AppMobile.Views
 			canvas.DrawText("Consumo", rect.Width * 0.5f, rect.Height * 0.5f, textPaint);
 
 			textPaint.TextSize = 0.2f * rect.Height;
-			canvas.DrawText(ViewModel.TotalConsumption + " lts", rect.Width * 0.5f, rect.Height * 0.7f, textPaint);
+			canvas.DrawText(ViewModel.TotalConsumption.ToString("F2") + " lts", rect.Width * 0.5f, rect.Height * 0.7f, textPaint);
 
 			textPaint.TextSize = 0.07f * rect.Height;
 			canvas.DrawText("Estado", rect.Width * 0.5f, rect.Height * 0.8f, textPaint);
 			textPaint.TextSize = 0.05f * rect.Height;
-			canvas.DrawText(ViewModel.PhValue + " ph", rect.Width * 0.5f, rect.Height * 0.85f, textPaint);
-			canvas.DrawText(ViewModel.TurbidityValue + " NTU", rect.Width * 0.5f, rect.Height * 0.9f, textPaint);
+			canvas.DrawText(ViewModel.PhValue.ToString("F2") + " ph", rect.Width * 0.5f, rect.Height * 0.85f, textPaint);
+			canvas.DrawText(ViewModel.TurbidityValue.ToString("F2") + " NTU", rect.Width * 0.5f, rect.Height * 0.9f, textPaint);
 		}
 
 		void OnComparasionCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
@@ -155,8 +186,8 @@ namespace AppMobile.Views
 			};
 			textPaint.TextSize = 0.4f * info.Height;
 
-			canvas.DrawText(ViewModel.TapConsumption + " lts", 0, args.Info.Height * 0.5f, textPaint);
-			canvas.DrawText(ViewModel.TreatedConsumption + " lts", info.Width * tapPercentage, args.Info.Height * 0.5f, textPaint);
+			canvas.DrawText(ViewModel.TapConsumption.ToString("F2") + " lts", 0, args.Info.Height * 0.5f, textPaint);
+			canvas.DrawText(ViewModel.TreatedConsumption.ToString("F2") + " lts", info.Width * tapPercentage, args.Info.Height * 0.5f, textPaint);
 
 			textPaint.TextSize = 0.2f * info.Height;
 

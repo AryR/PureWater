@@ -15,8 +15,7 @@
                 <StackLayout Margin="10" BackgroundColor="{StaticResource BackgroundConsumptionCards}" >
                     <Label Text="Consumo de Agua Corriente contra Tratada" TextColor="Black" FontSize="Large" />
                     <skia:SKCanvasView x:Name="SecondaryCanvas" PaintSurface="OnComparasionCanvasViewPaintSurface" Margin="5"/>
-                    <!--<Label Text="Consumiste ???? que ayer" TextColor="Black" />
-                    <Button Text="Ver Historia" Clicked="History_Clicked" />-->
+                    <Button Text="Ver Historia" Clicked="History_Clicked" Style="{StaticResource ColorButtonStyle}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,9 @@ namespace AppMobile.Helpers
 	public class WebServiceHelper
 	{
 		//Debug - IISExpress
-		//private static string WebServiceURI = "http://192.168.0.80:45455/";
+		private static string WebServiceURI = "http://192.168.0.80:45455/";
 		//Publish - IIS
-		private static string WebServiceURI = "http://192.168.137.1/";
+		//private static string WebServiceURI = "http://192.168.137.1/";
 
 		public static async Task<UserModel> ValidateUser(string email, string password)
 		{
@@ -23,6 +24,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 			
@@ -61,6 +63,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 			if (response.IsSuccessStatusCode)
@@ -85,6 +88,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -132,6 +136,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -157,6 +162,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -182,6 +188,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -207,6 +214,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -232,6 +240,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -271,6 +280,7 @@ namespace AppMobile.Helpers
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
 			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
 			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
 
 
@@ -281,28 +291,45 @@ namespace AppMobile.Helpers
 				if ((int)dataobject.GetValue("ResponseCode") != 1)
 					throw new Exception(dataobject.GetValue("ResponseMessage").ToString());
 
-				JObject daily = (JObject)dataobject.GetValue("DailyValue");
-				JObject monthly = (JObject)dataobject.GetValue("MonthlyValue");
-
 				ConsumptionModel[] models = new ConsumptionModel[2];
-				models[0] = new ConsumptionModel(true)
+
+				if (dataobject.GetValue("DailyValue").ToString() == "")
 				{
-					PhValue = double.Parse(daily.GetValue("PhValue").ToString()),
-					TurbidityValue = double.Parse(daily.GetValue("TurbidityValue").ToString()),
-					TapConsumption = double.Parse(daily.GetValue("TapConsumption").ToString()),
-					TreatedConsumption = double.Parse(daily.GetValue("TreatedConsumption").ToString()),
-					MinConsumption = double.Parse(daily.GetValue("MinConsumption").ToString()),
-					MaxConsumption = double.Parse(daily.GetValue("MaxConsumption").ToString())
-				};
-				models[1] = new ConsumptionModel(false)
+					models[0] = new ConsumptionModel(true);
+				}
+				else
 				{
-					PhValue = double.Parse(monthly.GetValue("PhValue").ToString()),
-					TurbidityValue = double.Parse(monthly.GetValue("TurbidityValue").ToString()),
-					TapConsumption = double.Parse(monthly.GetValue("TapConsumption").ToString()),
-					TreatedConsumption = double.Parse(monthly.GetValue("TreatedConsumption").ToString()),
-					MinConsumption = double.Parse(monthly.GetValue("MinConsumption").ToString()),
-					MaxConsumption = double.Parse(monthly.GetValue("MaxConsumption").ToString())
-				};
+					JObject daily = (JObject)dataobject.GetValue("DailyValue");
+
+					models[0] = new ConsumptionModel(true)
+					{
+						PhValue = double.Parse(daily.GetValue("PhValue").ToString()),
+						TurbidityValue = double.Parse(daily.GetValue("TurbidityValue").ToString()),
+						TapConsumption = double.Parse(daily.GetValue("TapConsumption").ToString()),
+						TreatedConsumption = double.Parse(daily.GetValue("TreatedConsumption").ToString()),
+						MinConsumption = double.Parse(daily.GetValue("MinConsumption").ToString()),
+						MaxConsumption = double.Parse(daily.GetValue("MaxConsumption").ToString())
+					};
+				}
+
+				if (dataobject.GetValue("MonthlyValue").ToString() == "")
+				{
+					models[1] = new ConsumptionModel(false);
+				}
+				else
+				{
+					JObject monthly = (JObject)dataobject.GetValue("MonthlyValue");
+
+					models[1] = new ConsumptionModel(false)
+					{
+						PhValue = double.Parse(monthly.GetValue("PhValue").ToString()),
+						TurbidityValue = double.Parse(monthly.GetValue("TurbidityValue").ToString()),
+						TapConsumption = double.Parse(monthly.GetValue("TapConsumption").ToString()),
+						TreatedConsumption = double.Parse(monthly.GetValue("TreatedConsumption").ToString()),
+						MinConsumption = double.Parse(monthly.GetValue("MinConsumption").ToString()),
+						MaxConsumption = double.Parse(monthly.GetValue("MaxConsumption").ToString())
+					};
+				}
 
 				return models;
 			}
@@ -312,6 +339,52 @@ namespace AppMobile.Helpers
 			}
 		}
 
+		public static async Task<Dictionary<int, ConsumptionModel>> GetHistoricWaterValues(string email, string password, bool daily)
+		{
+			var uri = new Uri(WebServiceURI + "api/WaterValues/GetHistoricWaterValues");
+			var json = "\"" + JsonConvert.SerializeObject(new { Email = email, Password = password, Daily = daily }).Replace("\"", "\\\"") + "\"";
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
+			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
+
+
+			if (response.IsSuccessStatusCode)
+			{
+				JObject dataobject = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+
+				if ((int)dataobject.GetValue("ResponseCode") != 1)
+					throw new Exception(dataobject.GetValue("ResponseMessage").ToString());
+
+				Dictionary<int, ConsumptionModel> models = new Dictionary<int, ConsumptionModel>();
+				
+				JObject values = (JObject)dataobject.GetValue("HistoricValues");
+				IList<string> keys = values.Properties().Select(p => p.Name).ToList();
+
+				foreach(string key in keys)
+				{
+					JObject value = (JObject)values.GetValue(key);
+					ConsumptionModel model = new ConsumptionModel(daily)
+					{
+						PhValue = double.Parse(value.GetValue("PhValue").ToString()),
+						TurbidityValue = double.Parse(value.GetValue("TurbidityValue").ToString()),
+						TapConsumption = double.Parse(value.GetValue("TapConsumption").ToString()),
+						TreatedConsumption = double.Parse(value.GetValue("TreatedConsumption").ToString()),
+						MinConsumption = double.Parse(value.GetValue("MinConsumption").ToString()),
+						MaxConsumption = double.Parse(value.GetValue("MaxConsumption").ToString())
+					};
+
+					models.Add(int.Parse(key), model);
+				}
+
+
+				return models;
+			}
+			else
+			{
+				throw new Exception("Error calling web service");
+			}
+		}
 	}
 }
