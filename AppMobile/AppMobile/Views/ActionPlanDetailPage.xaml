@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AppMobile.Views.ActionPlanDetailPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="5">
+                <Label Margin="5" Text="{Binding Description}" HorizontalOptions="CenterAndExpand" FontSize="Large" TextColor="{StaticResource ColorAccent}" />
+                <Image Margin="5" Source="{Binding Image}" Aspect="AspectFit" HorizontalOptions="CenterAndExpand" />
+                <Label Margin="5" Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Small" HorizontalOptions="Start" />
+                <Label Margin="5" Text="{Binding Detail}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
+                <Label Margin="5" Text="{Binding Url}" TextColor="Blue" TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding ClickCommand}"
+                                              CommandParameter="{Binding Url}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

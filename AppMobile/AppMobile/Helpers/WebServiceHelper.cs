@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -13,9 +14,9 @@ namespace AppMobile.Helpers
 	public class WebServiceHelper
 	{
 		//Debug - IISExpress
-		private static string WebServiceURI = "http://192.168.0.80:45455/";
+		private static string WebServiceURI = "http://192.168.0.80/";
 		//Publish - IIS
-		//private static string WebServiceURI = "http://192.168.137.1/";
+		//private static string WebServiceURI = "http://192.168.1.101/";
 
 		public static async Task<UserModel> ValidateUser(string email, string password)
 		{
@@ -380,6 +381,50 @@ namespace AppMobile.Helpers
 
 
 				return models;
+			}
+			else
+			{
+				throw new Exception("Error calling web service");
+			}
+		}
+
+
+		public static async Task<ListActionPlanModel> GetActionPlans(string email, string password)
+		{
+			var uri = new Uri(WebServiceURI + "api/actionplan/GetActionPlans");
+			var json = "\"" + JsonConvert.SerializeObject(new { Email = email, Password = password }).Replace("\"", "\\\"") + "\"";
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+			HttpClient _client = new HttpClient();
+			_client.Timeout = TimeSpan.FromSeconds(30);
+			HttpResponseMessage response = _client.PostAsync(uri, content).Result;
+
+
+			if (response.IsSuccessStatusCode)
+			{
+				ListActionPlanModel plans = new ListActionPlanModel();
+
+				JObject dataobject = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+
+				if ((int)dataobject.GetValue("ResponseCode") != 1)
+					throw new Exception(dataobject.GetValue("ResponseMessage").ToString());
+
+				JArray jplans = (JArray)dataobject.GetValue("ActionPlans");
+
+				foreach (JObject jplan in jplans)
+				{
+					ActionPlanModel plan = new ActionPlanModel();
+					plan.ID = (int)jplan.GetValue("ID");
+					plan.Description = jplan.GetValue("Description").ToString();
+					plan.Detail = jplan.GetValue("Detail").ToString();
+					plan.Date = (DateTime)jplan.GetValue("Date");
+					plan.Url = jplan.GetValue("Url").ToString();
+					plan.Image = Xamarin.Forms.ImageSource.FromStream(
+	() => new MemoryStream(Convert.FromBase64String(jplan.GetValue("Image").ToString())));
+					plans.Plans.Add(plan);
+				}
+
+				return plans;
 			}
 			else
 			{
