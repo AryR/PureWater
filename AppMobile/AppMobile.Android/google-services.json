@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "336332677212",
+    "firebase_url": "https://purewater-251613.firebaseio.com",
+    "project_id": "purewater-251613",
+    "storage_bucket": "purewater-251613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336332677212:android:af75aa93c06d93f0c88699",
+        "android_client_info": {
+          "package_name": "com.purewater.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336332677212-qboqa9h8gojb47ak2qg8kesugisuoob0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNH1KOIblp7RlGQR1DuJGRmVZp1Oz_K5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336332677212-qboqa9h8gojb47ak2qg8kesugisuoob0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

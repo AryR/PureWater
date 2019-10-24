@@ -14,10 +14,13 @@ namespace AppMobile.Views
 	public partial class MainPage : MasterDetailPage
 	{
 
-		public MainPage()
+		public MainPage(bool fromNotification)
 		{
 			InitializeComponent();
 			MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+
+			if(fromNotification)
+				Detail = new NavigationPage(new BenefitsPage());
 		}
 
 		private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

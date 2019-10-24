@@ -9,7 +9,7 @@ namespace AppMobile
 {
 	public partial class App : Application
 	{
-		public App()
+		public App(bool fromNotification)
 		{
 			InitializeComponent();
 
@@ -20,7 +20,7 @@ namespace AppMobile
 
 				UserModel user = WebServiceHelper.ValidateUser(Settings.Email, Settings.Password).Result;
 				CacheHelper.SetCurrentUserModel(user);
-				MainPage = new MainPage();
+				MainPage = new MainPage(fromNotification);
 			}
 			catch (Exception exp)
 			{

@@ -149,7 +149,7 @@ namespace AppMobile.Views
 			};
 			canvas.DrawText("Consumo", rect.Width * 0.5f, rect.Height * 0.5f, textPaint);
 
-			textPaint.TextSize = 0.2f * rect.Height;
+			textPaint.TextSize = 0.15f * rect.Height;
 			canvas.DrawText(ViewModel.TotalConsumption.ToString("F2") + " lts", rect.Width * 0.5f, rect.Height * 0.7f, textPaint);
 
 			textPaint.TextSize = 0.07f * rect.Height;

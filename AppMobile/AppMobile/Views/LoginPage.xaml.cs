@@ -32,10 +32,11 @@ namespace AppMobile.Views
 					throw new Exception("Datos sin completar.");
 
 				UserModel user = WebServiceHelper.ValidateUser(Email, Password).Result;
+				WebServiceHelper.SaveToken(Email, Password, CacheHelper.GetAndroidToken());
 				Settings.Email = Email;
 				Settings.Password = Password;
 				CacheHelper.SetCurrentUserModel(user);
-				App.Current.MainPage = new MainPage();
+				App.Current.MainPage = new MainPage(false);
 			}
 			catch(Exception exp)
 			{

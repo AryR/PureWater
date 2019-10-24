@@ -41,7 +41,8 @@ namespace AppMobile.Views
 					new MenuItem { Id = 1, Title = "Perfil", TargetType= typeof(ProfilePage) },
 					//new MenuItem { Id = 2, Title = "Servicio de Recolección" },
 					new MenuItem { Id = 3, Title = "Planes de Acción", TargetType=typeof(ActionPlansPage) },
-					new MenuItem { Id = 4, Title = "Administración de Usuarios", TargetType = typeof(UserAdministrationPage) },
+					new MenuItem { Id = 4, Title = "Mis Beneficios", TargetType=typeof(BenefitsPage) },
+					new MenuItem { Id = 6, Title = "Administración de Usuarios", TargetType = typeof(UserAdministrationPage) },
 					new MenuItem { Id = 5, Title = "Cerrar Sesión" }
 				});
 				}
@@ -51,6 +52,8 @@ namespace AppMobile.Views
 					{
 					new MenuItem { Id = 0, Title = "Home", TargetType = typeof(ConsumptionPage) },
 					new MenuItem { Id = 1, Title = "Perfil", TargetType= typeof(ProfilePage) },
+					new MenuItem { Id = 3, Title = "Planes de Acción", TargetType=typeof(ActionPlansPage) },
+					new MenuItem { Id = 4, Title = "Mis Beneficios", TargetType=typeof(BenefitsPage) },
 					new MenuItem { Id = 5, Title = "Cerrar Sesión" }
 					});
 				}

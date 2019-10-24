@@ -18,6 +18,20 @@ namespace AppMobile.Helpers
 				return Barrel.Current.Get<ConsumptionModel>(key: "monthly");
 		}
 
+		public static void UpdateAndroidToken(string token)
+		{
+			Barrel.ApplicationId = "purewater.mobileapp";
+
+			Barrel.Current.Add(key: "token", data: token, expireIn: TimeSpan.FromDays(30));
+		}
+
+		public static string GetAndroidToken()
+		{
+			Barrel.ApplicationId = "purewater.mobileapp";
+
+			return Barrel.Current.Get<string>(key: "token");
+		}
+
 		public static void UpdateConsumptionModel(ConsumptionModel model, bool daily)
 		{
 			Barrel.ApplicationId = "purewater.mobileapp";
